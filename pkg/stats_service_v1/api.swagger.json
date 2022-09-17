@@ -1,0 +1,145 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "service.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpc_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "http_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "http_status": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "stats_service_v1CPUInfo": {
+      "type": "object",
+      "properties": {
+        "user_mode": {
+          "type": "number",
+          "format": "float"
+        },
+        "system_mode": {
+          "type": "number",
+          "format": "float"
+        },
+        "idle": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "stats_service_v1DiskInfo": {
+      "type": "object",
+      "properties": {
+        "kbt": {
+          "type": "number",
+          "format": "float"
+        },
+        "tps": {
+          "type": "number",
+          "format": "float"
+        },
+        "mbs": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "stats_service_v1LoadInfo": {
+      "type": "object",
+      "properties": {
+        "load1": {
+          "type": "number",
+          "format": "float"
+        },
+        "load5": {
+          "type": "number",
+          "format": "float"
+        },
+        "load15": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "stats_service_v1StartMonitoringResponse": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "collectedAt": {
+          "type": "string"
+        },
+        "load": {
+          "$ref": "#/definitions/stats_service_v1LoadInfo"
+        },
+        "cpu": {
+          "$ref": "#/definitions/stats_service_v1CPUInfo"
+        },
+        "disk": {
+          "$ref": "#/definitions/stats_service_v1DiskInfo"
+        }
+      }
+    }
+  }
+}

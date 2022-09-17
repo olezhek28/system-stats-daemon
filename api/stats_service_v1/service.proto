@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package stats_service_v1;
+
+option go_package = "github.com/olezhek28/system-stats-daemon/pkg/stats_service_v1;stats_service_v1";
+
+service StatsServiceV1 {
+  rpc StartMonitoring(StartMonitoringRequest) returns (stream StartMonitoringResponse);
+}
+
+message StartMonitoringRequest {
+  int32 response_period = 1;
+  int32 range = 2;
+}
+
+message StartMonitoringResponse {
+  string title = 1;
+  string collectedAt = 2;
+  LoadInfo load = 3;
+  CPUInfo cpu = 4;
+  DiskInfo disk = 5;
+}
+
+message LoadInfo {
+  float load1 = 1;
+  float load5 = 2;
+  float load15 = 3;
+}
+
+message CPUInfo {
+  float user_mode = 1;
+  float system_mode = 2;
+  float idle = 3;
+}
+
+message DiskInfo {
+  float kbt = 1;
+  float tps = 2;
+  float mbs = 3;
+}
