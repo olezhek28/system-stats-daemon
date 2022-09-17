@@ -4,7 +4,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/olezhek28/system-stats-daemon/intternal/app/api/stats_service_v1"
+	"github.com/olezhek28/system-stats-daemon/internal/app/api/stats_service_v1"
+	"github.com/olezhek28/system-stats-daemon/internal/service/stats"
 	desc "github.com/olezhek28/system-stats-daemon/pkg/stats_service_v1"
 	"google.golang.org/grpc"
 )
@@ -20,6 +21,6 @@ func main() {
 	var opts []grpc.ServerOption
 
 	grpcServer := grpc.NewServer(opts...)
-	desc.RegisterStatsServiceV1Server(grpcServer, stats_service_v1.NewStatsServiceV1())
+	desc.RegisterStatsServiceV1Server(grpcServer, stats_service_v1.NewStatsServiceV1(stats.NewStatsService()))
 	grpcServer.Serve(lis)
 }

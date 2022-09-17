@@ -22,7 +22,7 @@ func main() {
 
 	req := &desc.StartMonitoringRequest{
 		ResponsePeriod: 5,
-		Range:          15,
+		RangeTime:      15,
 	}
 
 	stream, err := client.StartMonitoring(context.Background(), req)

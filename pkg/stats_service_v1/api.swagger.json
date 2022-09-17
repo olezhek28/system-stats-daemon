@@ -73,17 +73,20 @@
     "stats_service_v1CPUInfo": {
       "type": "object",
       "properties": {
-        "user_mode": {
-          "type": "number",
-          "format": "float"
+        "user_mode_time": {
+          "type": "string",
+          "format": "int64",
+          "title": "% of cpu time in user mode"
         },
-        "system_mode": {
-          "type": "number",
-          "format": "float"
+        "system_mode_time": {
+          "type": "string",
+          "format": "int64",
+          "title": "% of cpu time in system mode"
         },
-        "idle": {
-          "type": "number",
-          "format": "float"
+        "idle_time": {
+          "type": "string",
+          "format": "int64",
+          "title": "% of cpu time in idle mode"
         }
       }
     },
@@ -92,52 +95,53 @@
       "properties": {
         "kbt": {
           "type": "number",
-          "format": "float"
+          "format": "double",
+          "title": "kilobytes per transfer"
         },
         "tps": {
           "type": "number",
-          "format": "float"
+          "format": "double",
+          "title": "transfers per second"
         },
         "mbs": {
           "type": "number",
-          "format": "float"
+          "format": "double",
+          "title": "megabytes per second"
         }
       }
     },
     "stats_service_v1LoadInfo": {
       "type": "object",
       "properties": {
-        "load1": {
+        "load1_min": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         },
-        "load5": {
+        "load5_min": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         },
-        "load15": {
+        "load15_min": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         }
       }
     },
     "stats_service_v1StartMonitoringResponse": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string"
-        },
-        "collectedAt": {
-          "type": "string"
-        },
-        "load": {
-          "$ref": "#/definitions/stats_service_v1LoadInfo"
-        },
-        "cpu": {
+        "cpu_info": {
           "$ref": "#/definitions/stats_service_v1CPUInfo"
         },
-        "disk": {
+        "disk_info": {
           "$ref": "#/definitions/stats_service_v1DiskInfo"
+        },
+        "load_info": {
+          "$ref": "#/definitions/stats_service_v1LoadInfo"
+        },
+        "collectedAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     }

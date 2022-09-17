@@ -4,37 +4,44 @@ package stats_service_v1;
 
 option go_package = "github.com/olezhek28/system-stats-daemon/pkg/stats_service_v1;stats_service_v1";
 
+import "google/protobuf/timestamp.proto";
+
 service StatsServiceV1 {
   rpc StartMonitoring(StartMonitoringRequest) returns (stream StartMonitoringResponse);
 }
 
 message StartMonitoringRequest {
-  int32 response_period = 1;
-  int32 range = 2;
+  int64 response_period = 1;
+  int64 range_time = 2;
 }
 
 message StartMonitoringResponse {
-  string title = 1;
-  string collectedAt = 2;
-  LoadInfo load = 3;
-  CPUInfo cpu = 4;
-  DiskInfo disk = 5;
+  CPUInfo cpu_info = 1;
+  DiskInfo disk_info = 2;
+  LoadInfo load_info = 3;
+  google.protobuf.Timestamp collectedAt = 4;
 }
 
 message LoadInfo {
-  float load1 = 1;
-  float load5 = 2;
-  float load15 = 3;
+  double load1_min = 1;
+  double load5_min = 2;
+  double load15_min = 3;
 }
 
 message CPUInfo {
-  float user_mode = 1;
-  float system_mode = 2;
-  float idle = 3;
+  // % of cpu time in user mode
+  int64 user_mode_time = 1;
+  // % of cpu time in system mode
+  int64 system_mode_time = 2;
+  // % of cpu time in idle mode
+  int64 idle_time = 3;
 }
 
 message DiskInfo {
-  float kbt = 1;
-  float tps = 2;
-  float mbs = 3;
+  // kilobytes per transfer
+  double kbt = 1;
+  // transfers per second
+  double tps = 2;
+  // megabytes per second
+  double mbs = 3;
 }

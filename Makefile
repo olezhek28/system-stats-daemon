@@ -12,6 +12,15 @@ generate:
 		mv pkg/stats_service_v1/github.com/olezhek28/system-stats-daemon/pkg/stats_service_v1/* pkg/stats_service_v1/
 		rm -rf pkg/stats_service_v1/github.com
 
+PHONY: vendor-proto
+vendor-proto:
+		@if [ ! -d vendor.protogen/google/protobuf ]; then \
+			git clone https://github.com/protocolbuffers/protobuf vendor.protogen/protobuf &&\
+			mkdir -p  vendor.protogen/google/protobuf &&\
+			mv vendor.protogen/protobuf/src/google/protobuf/*.proto vendor.protogen/google/protobuf &&\
+			rm -rf vendor.protogen/protobuf ;\
+		fi
+
 PHONY: install-buf
 install-buf:
 	GOBIN=$(LOCAL_BIN) go install -mod=mod github.com/bufbuild/buf/cmd/buf@v1.7.0
