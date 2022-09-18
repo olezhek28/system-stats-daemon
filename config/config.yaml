@@ -1,0 +1,4 @@
+stats:
+  cpu: true
+  disk: true
+  loadavg: true

@@ -26,6 +26,9 @@ linters-settings:
   goconst:
     min-len:         2
     min-occurrences: 2
+  revive:
+    severity: warning
+    confidence: 0.8
  
 linters:
   disable-all: true
