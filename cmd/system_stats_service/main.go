@@ -10,17 +10,18 @@ import (
 	"google.golang.org/grpc"
 )
 
-const port = ":7002"
+const address = "localhost:7002"
 
 func main() {
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", address)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	var opts []grpc.ServerOption
-
-	grpcServer := grpc.NewServer(opts...)
+	grpcServer := grpc.NewServer()
 	desc.RegisterStatsServiceV1Server(grpcServer, stats_service_v1.NewStatsServiceV1(stats.NewStatsService()))
-	grpcServer.Serve(lis)
+
+	if err = grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }

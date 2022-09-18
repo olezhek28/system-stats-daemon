@@ -1,5 +1,6 @@
 package stats
 
+// Service ...
 type Service struct {
 }
 

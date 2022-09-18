@@ -32,3 +32,7 @@ test:
 test-coverage:
 	go test -race -coverprofile="coverage.out" -covermode=atomic ./...
 	go tool cover -html="coverage.out"
+
+.PHONY: lint
+lint:
+	golangci-lint run --config=.golangci.yaml ./...

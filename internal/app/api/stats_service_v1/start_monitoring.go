@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+// StartMonitoring ...
 func (i *Implementation) StartMonitoring(req *desc.StartMonitoringRequest, stream desc.StatsServiceV1_StartMonitoringServer) error {
 	for {
 		res, err := i.statsService.StartMonitoring(req.GetResponsePeriod(), req.GetRangeTime())

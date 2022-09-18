@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// nolint:staticcheck
 	conn, err := grpc.Dial("localhost:7002", grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("failed to dial connection" + err.Error())
