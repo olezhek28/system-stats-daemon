@@ -1,9 +1,9 @@
 package stats
 
 import (
-	"fmt"
 	"log"
 	"math"
+	"sync"
 	"time"
 
 	"github.com/olezhek28/system-stats-daemon/internal/converter"
@@ -17,10 +17,16 @@ import (
 
 const decimals = 2
 
+type data struct {
+	statData []*model.DeviceInfo
+	m        sync.Mutex
+}
+
 // StartMonitoring ...
 func (s *Service) StartMonitoring(stream desc.StatsServiceV1_StartMonitoringServer, responsePeriod int64, rangeTime int64) error {
 	collectTicker := time.NewTicker(1 * time.Second)
-	count := 0
+	statsInfo := &data{}
+
 	go func() {
 		for {
 			select {
@@ -31,12 +37,13 @@ func (s *Service) StartMonitoring(stream desc.StatsServiceV1_StartMonitoringServ
 					continue
 				}
 
-				s.m.Lock()
-				s.statData = append(s.statData, res)
-				s.m.Unlock()
+				statsInfo.m.Lock()
+				statsInfo.statData = append(statsInfo.statData, res)
+				statsInfo.m.Unlock()
 
-				count++
-				fmt.Printf("count: %d\n", count)
+			case <-stream.Context().Done():
+				log.Println("data collection interrupted")
+				return
 			}
 		}
 	}()
@@ -45,14 +52,11 @@ func (s *Service) StartMonitoring(stream desc.StatsServiceV1_StartMonitoringServ
 	for {
 		select {
 		case <-responseTicker.C:
-			fmt.Println("try response...")
-			if len(s.statData) >= int(rangeTime) {
-				fmt.Println("send response before... ", len(s.statData))
-				s.m.Lock()
-				res := s.statData[:rangeTime]
-				s.statData = s.statData[responsePeriod:]
-				s.m.Unlock()
-				fmt.Println("after response before... ", len(s.statData))
+			if len(statsInfo.statData) >= int(rangeTime) {
+				statsInfo.m.Lock()
+				res := statsInfo.statData[:rangeTime]
+				statsInfo.statData = statsInfo.statData[responsePeriod:]
+				statsInfo.m.Unlock()
 
 				avgStats := calcAvg(res)
 
@@ -66,6 +70,10 @@ func (s *Service) StartMonitoring(stream desc.StatsServiceV1_StartMonitoringServ
 					return err
 				}
 			}
+
+		case <-stream.Context().Done():
+			log.Println("sending data interrupted")
+			return nil
 		}
 	}
 }
