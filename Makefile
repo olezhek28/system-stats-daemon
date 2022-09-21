@@ -1,5 +1,9 @@
 CURDIR:=`pwd`
 LOCAL_BIN:=$(CURDIR)/bin
+BIN_STAT := "./bin/stat"
+
+build-stat:
+	go build -v -o $(BIN_STAT) -ldflags "$(LDFLAGS)" ./cmd/system_stats_service/main.go
 
 PHONY: generate
 generate:
