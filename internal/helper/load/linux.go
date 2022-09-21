@@ -4,6 +4,11 @@
 package load
 
 import (
+	"fmt"
+	"os/exec"
+	"strconv"
+	"strings"
+
 	"github.com/olezhek28/system-stats-daemon/internal/model"
 )
 

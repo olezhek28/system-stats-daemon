@@ -20,11 +20,3 @@ func NewStatsServiceV1(statsService *stats.Service) *Implementation {
 		statsService,
 	}
 }
-
-func newMockStatsServiceV1(i Implementation) *Implementation {
-	return &Implementation{
-		desc.UnimplementedStatsServiceV1Server{},
-
-		i.statsService,
-	}
-}
