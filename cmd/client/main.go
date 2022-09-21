@@ -47,7 +47,7 @@ func main() {
 
 	stream, err := client.StartMonitoring(context.Background(), req)
 	if err != nil {
-		fmt.Println("failed to start monitoring")
+		fmt.Printf("failed to start monitoring: %v", err)
 		return
 	}
 

@@ -1,9 +1,5 @@
-CURDIR:=`pwd`
-LOCAL_BIN:=$(CURDIR)/bin
-BIN_STAT := "./bin/stat"
-
 build-stat:
-	go build -v -o $(BIN_STAT) -ldflags "$(LDFLAGS)" ./cmd/system_stats_service/main.go
+	go build -v -o /bin/stat -ldflags="-s -w" ./cmd/system_stats_service/main.go
 
 PHONY: generate
 generate:
@@ -30,7 +26,7 @@ install-buf:
 	GOBIN=$(LOCAL_BIN) go install -mod=mod github.com/bufbuild/buf/cmd/buf@v1.7.0
 
 test:
-	go test -race ./internal/...
+	go test -race ./internal/... -count 100
 
 .PHONY: test-coverage
 test-coverage:

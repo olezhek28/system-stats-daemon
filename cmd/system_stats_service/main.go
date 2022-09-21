@@ -21,7 +21,7 @@ var (
 
 func init() {
 	flag.StringVar(&port, "port", "7002", "daemon port")
-	flag.StringVar(&configPath, "config", "config/config.yaml", "path to config file")
+	flag.StringVar(&configPath, "config", "./config.yaml", "path to config file")
 }
 
 func main() {
