@@ -10,6 +10,6 @@ import (
 )
 
 // GetStats ...
-func GetStats() (*model.CPUInfo, error) {
+func GetStats() (*model.DiskInfo, error) {
 	return nil, status.Error(codes.Unimplemented, "not implemented")
 }

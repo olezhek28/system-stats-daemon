@@ -19,7 +19,7 @@ const (
 )
 
 // GetStats ...
-func GetStats() (*model.CPUInfo, error) {
+func GetStats() (*model.LoadInfo, error) {
 	cmd := exec.Command("cat", "/proc/loadavg")
 	res, err := cmd.CombinedOutput()
 	if err != nil {
