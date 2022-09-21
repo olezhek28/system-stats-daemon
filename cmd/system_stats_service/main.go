@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net"
 
@@ -33,12 +32,14 @@ func main() {
 		log.Fatalf("failed to get config: %s", err)
 	}
 
-	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
+	lis, err := net.Listen("tcp", net.JoinHostPort(host, port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
+	defer grpcServer.Stop()
+
 	desc.RegisterStatsServiceV1Server(grpcServer, stats_service_v1.NewStatsServiceV1(stats.NewStatsService(cfg)))
 
 	if err = grpcServer.Serve(lis); err != nil {

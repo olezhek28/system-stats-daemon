@@ -1,4 +1,4 @@
 stats:
-  cpu: true
-  disk: true
-  loadavg: true
+  is_cpu: true
+  is_disk: true
+  is_load_avg: false

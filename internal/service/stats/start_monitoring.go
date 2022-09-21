@@ -31,7 +31,7 @@ func (s *Service) StartMonitoring(stream desc.StatsServiceV1_StartMonitoringServ
 		for {
 			select {
 			case <-collectTicker.C:
-				res, err := getStats()
+				res, err := s.getStats()
 				if err != nil {
 					log.Println(stream.Context(), "failed to get stats: %s", err)
 					continue
@@ -78,20 +78,31 @@ func (s *Service) StartMonitoring(stream desc.StatsServiceV1_StartMonitoringServ
 	}
 }
 
-func getStats() (*model.DeviceInfo, error) {
-	cpuInfo, err := cpu.GetStats()
-	if err != nil {
-		return nil, err
+func (s *Service) getStats() (*model.DeviceInfo, error) {
+	cpuInfo := new(model.CPUInfo)
+	diskInfo := new(model.DiskInfo)
+	loadInfo := new(model.LoadInfo)
+	var err error
+
+	if s.config.IsCPU() {
+		cpuInfo, err = cpu.GetStats()
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	diskInfo, err := disk.GetStats()
-	if err != nil {
-		return nil, err
+	if s.config.IsDisk() {
+		diskInfo, err = disk.GetStats()
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	loadInfo, err := load.GetStats()
-	if err != nil {
-		return nil, err
+	if s.config.IsLoadAvg() {
+		loadInfo, err = load.GetStats()
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &model.DeviceInfo{

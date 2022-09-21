@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net"
 
 	desc "github.com/olezhek28/system-stats-daemon/pkg/stats_service_v1"
 	"google.golang.org/grpc"
@@ -30,7 +31,7 @@ func main() {
 	flag.Parse()
 
 	// nolint:staticcheck
-	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", host, port), grpc.WithInsecure())
+	conn, err := grpc.Dial(net.JoinHostPort(host, port), grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("failed to dial connection" + err.Error())
 		return
