@@ -1,0 +1,149 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "service.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpc_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "http_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "http_status": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "stats_service_v1CPUInfo": {
+      "type": "object",
+      "properties": {
+        "user_mode_time": {
+          "type": "string",
+          "format": "int64",
+          "title": "% of cpu time in user mode"
+        },
+        "system_mode_time": {
+          "type": "string",
+          "format": "int64",
+          "title": "% of cpu time in system mode"
+        },
+        "idle_time": {
+          "type": "string",
+          "format": "int64",
+          "title": "% of cpu time in idle mode"
+        }
+      }
+    },
+    "stats_service_v1DiskInfo": {
+      "type": "object",
+      "properties": {
+        "kbt": {
+          "type": "number",
+          "format": "double",
+          "title": "kilobytes per transfer"
+        },
+        "tps": {
+          "type": "number",
+          "format": "double",
+          "title": "transfers per second"
+        },
+        "mbs": {
+          "type": "number",
+          "format": "double",
+          "title": "megabytes per second"
+        }
+      }
+    },
+    "stats_service_v1LoadInfo": {
+      "type": "object",
+      "properties": {
+        "load1_min": {
+          "type": "number",
+          "format": "double"
+        },
+        "load5_min": {
+          "type": "number",
+          "format": "double"
+        },
+        "load15_min": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "stats_service_v1StartMonitoringResponse": {
+      "type": "object",
+      "properties": {
+        "cpu_info": {
+          "$ref": "#/definitions/stats_service_v1CPUInfo"
+        },
+        "disk_info": {
+          "$ref": "#/definitions/stats_service_v1DiskInfo"
+        },
+        "load_info": {
+          "$ref": "#/definitions/stats_service_v1LoadInfo"
+        },
+        "collectedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
